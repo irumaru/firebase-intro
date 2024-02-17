@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, getIdToken } from "firebase/auth";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -43,6 +43,18 @@ function Login() {
     });
 }
 
+function customBackendLogin() {
+    getAuth(app).currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+        // Send token to your backend via HTTPS
+        // ...
+        console.log("getIdToken Success! idToken=", idToken);
+    }).catch(function(error) {
+        // Handle error
+        console.log("getIdToken Failed! error=", error);
+    });
+}
+
 // webpackを使用しているため、buldle.jsファイルでLogin関数名は別の物へ置き換わる
 // https://qiita.com/Anaakikutsushit/items/18fd24ac77cf379a422c
 document.getElementById("login").addEventListener("click", Login);
+document.getElementById("getIdToken").addEventListener("click", customBackendLogin);
