@@ -1,0 +1,20 @@
+version: '3'
+services:
+  app:
+    container_name: go-app
+    build:
+      context: ../
+    image: golang:1.21
+    ports: 
+      - "8080:80"
+    volumes:
+      - ../:/usr/src/app
+      - ../datastore:/mnt/datastore
+    working_dir: /usr/src/app
+    environment:
+      - DB_HOST=db
+      - DB_USER=dev
+      - DB_PASSWORD=dev
+      - DB_NAME=dev
+      - LOG_LEVEL=1
+    command: sleep infinity
